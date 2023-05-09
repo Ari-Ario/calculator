@@ -34,9 +34,22 @@ class CalculatorApp(App):
     
     #Method to regulate the button-press
     def butt_press(self, instance):
-        pass
+        butt_text = instance.text
+        pre_text = self.solution.text
+        #clear the text-box
+        if butt_text== "Clear":
+            self.solution.text= ""
+        #Not allowing tow times a sign and not allowing a sing at the beggining
+        else:
+            if pre_text and (pre_text[-1] in self.operations and butt_text in self.operations):
+                return
+            elif (pre_text== ""  and butt_text in self.operations):
+                return
+            else:
+                text= pre_text + butt_text
+                self.solution = text
 
-    #
+    #Method to pulish the results on the text-box at the top
     def publish_solution(self, instance):
         pass
     
