@@ -22,7 +22,7 @@ class CalculatorApp(App):
         for row in buttons:
             y_layout= BoxLayout()
             for sign in row:
-                butt= Button(text=sign)
+                butt= Button(text=sign, pos_hint= {"center_x":0.5, "center_y":0.5})
                 butt.bind(on_press= self.butt_press)
                 y_layout.add_widget(butt)
             main_layout.add_widget(y_layout)
@@ -36,14 +36,18 @@ class CalculatorApp(App):
     def butt_press(self, instance):
         butt_text = instance.text
         pre_text = self.solution.text
+        print(butt_text, pre_text)
         #clear the text-box
         if butt_text== "Clear":
             self.solution.text= ""
+
         #Not allowing tow times a sign and not allowing a sing at the beggining
         else:
             if pre_text and (pre_text[-1] in self.operations and butt_text in self.operations):
+                #Not allowing two operation-signs after each other
                 return
-            elif (pre_text== ""  and butt_text in self.operations):
+            elif (pre_text == ""  and butt_text in self.operations):
+                #not allowing the first option to be an operation sign
                 return
             else:
                 text= pre_text + butt_text
@@ -51,7 +55,14 @@ class CalculatorApp(App):
 
     #Method to pulish the results on the text-box at the top
     def publish_solution(self, instance):
-        pass
+        equal_sign = instance
+        #checks if text-box is empty or if last char is an operation-sign
+        if self.solution == "" and self.solution[-1] in self.operations:
+            return
+        
+        else:
+            solve = str(eval(self.solution))
+            self.solution = solve
     
 if __name__== "__main__":
     app= CalculatorApp()
