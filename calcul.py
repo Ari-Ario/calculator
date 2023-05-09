@@ -9,7 +9,7 @@ class CalculatorApp(App):
         self.operations = ["+", "-", "*", "/"]
         self.last_button= None
         main_layout = BoxLayout(orientation="vertical",  pos_hint={"center_x":0.5, "center_y":0.5})
-        self.solution= TextInput(readonly= True, font_size=40)
+        self.solution= TextInput(readonly= True, font_size=40, multiline=False)
         main_layout.add_widget(self.solution)
         #the numbers and sign on the layout
         buttons = [
@@ -34,35 +34,27 @@ class CalculatorApp(App):
     
     #Method to regulate the button-press
     def butt_press(self, instance):
-        butt_text = instance.text
-        pre_text = self.solution.text
-        print(butt_text, pre_text)
-        #clear the text-box
-        if butt_text== "Clear":
-            self.solution.text= ""
-
-        #Not allowing tow times a sign and not allowing a sing at the beggining
+        current= self.solution.text
+        button_text= instance.text
+        if button_text=="Clear":
+              self.solution.text = ""
         else:
-            if pre_text and (pre_text[-1] in self.operations and butt_text in self.operations):
-                #Not allowing two operation-signs after each other
-                return
-            elif (pre_text == ""  and butt_text in self.operations):
-                #not allowing the first option to be an operation sign
-                return
-            else:
-                text= pre_text + butt_text
-                self.solution = text
+              if current and (current[-1] in self.operations and instance.text in self.operations):
+                    return
+              elif current=="" and instance.text in self.operations:
+                    return
+              else:
+                    new_text= current + button_text
+                    self.solution.text= new_text
 
     #Method to pulish the results on the text-box at the top
     def publish_solution(self, instance):
-        equal_sign = instance
-        #checks if text-box is empty or if last char is an operation-sign
-        if self.solution == "" and self.solution[-1] in self.operations:
-            return
-        
-        else:
-            solve = str(eval(self.solution))
-            self.solution = solve
+        text= self.solution.text
+        if text[-1] in self.operations:
+             return
+        if text:
+              res = str(eval(text))
+              self.solution.text = res
     
 if __name__== "__main__":
     app= CalculatorApp()
