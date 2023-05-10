@@ -32,15 +32,19 @@ class CalculatorApp(App):
     
     #Method solve to show the result on the screen
     def solve(self, instance):
-        curr = self.text_box.text
-        curr_lst= curr.split("=")
-        curr_last= curr_lst[-1]
-        if curr:
+        previous_text= self.text_box.text
+        lines= [line for line in self.text_box.text.split("\n")]
+        for line in lines:
+            curr = line
+            curr_lst= curr.split("=")
+            curr_last= curr_lst[-1]
+        if curr or "\n":
             res = str(eval(curr_last))
             if res[-1]== "0" and res[-2]==".":
                 res = res[:-2]
-            curr += " = " +res
-            self.text_box.text= curr
+            curr = " = " +res
+            final_text = previous_text + curr
+            self.text_box.text= final_text
 
     #Method write to enter the button-text into the textbox/screen
     def write(self, instance):
