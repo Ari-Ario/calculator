@@ -36,9 +36,10 @@ class CalculatorApp(App):
         lines= [line for line in self.text_box.text.split("\n")]
         for line in lines:
             curr = line
-            curr_lst= curr.split("=")
-            curr_last= curr_lst[-1]
-        if curr or "\n":
+            curr_list= curr.split("=")
+            if not curr_list[-1].isalnum():
+                curr_last= curr_list[-1]
+        if curr:
             res = str(eval(curr_last))
             if res[-1]== "0" and res[-2]==".":
                 res = res[:-2]
@@ -48,15 +49,22 @@ class CalculatorApp(App):
 
     #Method write to enter the button-text into the textbox/screen
     def write(self, instance):
-        input= instance.text
-        curr= self.text_box.text
-        if curr=="" and input in self.operations:
-            self.text_box.text=""
-        elif curr!="" and (curr[-1] in self.operations and input in self.operations):
-            self.text_box.text = curr
+        current= self.text_box.text
+        button_text= instance.text
+        if button_text=="Clear":
+              self.text_box.text = ""
         else:
-            self.text_box.text += input
-    
+            if current and (current[-1] in self.operations and button_text in self.operations):
+                return
+            elif "\n" in current and (button_text in self.operations and current[-1] =="\n"):
+                return
+            elif current=="" and instance.text in self.operations:
+                return
+            else:
+                new_text= current + button_text
+                self.text_box.text= new_text
+
+
 if __name__== "__main__":
     app= CalculatorApp()
     app.run()
