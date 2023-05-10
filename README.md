@@ -1,3 +1,3 @@
 # calculator
-A simple Calculator in Kivy code.
+A simple Calculator in Kivy-Python code.
 Diffrent calculators in design and in functionality.
