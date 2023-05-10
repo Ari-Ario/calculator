@@ -6,6 +6,7 @@ from kivy.uix.textinput import TextInput
 
 class CalculatorApp(App):
     def build(self):
+        self.operations = ["+", "-", "*", "/"]
         main_layout= BoxLayout(orientation="vertical", spacing=3)
         self.text_box= TextInput(font_size= 30)
         main_layout.add_widget(self.text_box)
@@ -41,11 +42,14 @@ class CalculatorApp(App):
 
     #Method write to enter the button-text into the textbox/screen
     def write(self, instance):
-        num= instance.text
+        input= instance.text
         curr= self.text_box.text
-        if curr:
+        if curr=="" and input in self.operations:
             self.text_box.text=""
-        self.text_box.text = f"you pressed button {num}"
+        elif curr!="" and (curr[-1] in self.operations and input in self.operations):
+            self.text_box.text = curr
+        else:
+            self.text_box.text += input
     
 if __name__== "__main__":
     app= CalculatorApp()
