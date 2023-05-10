@@ -37,6 +37,8 @@ class CalculatorApp(App):
         curr_last= curr_lst[-1]
         if curr:
             res = str(eval(curr_last))
+            if res[-1]== "0" and res[-2]==".":
+                res = res[:-2]
             curr += " = " +res
             self.text_box.text= curr
 
